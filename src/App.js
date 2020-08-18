@@ -19,6 +19,16 @@ function App() {
                         photoUrl={
                             'http://www.geneva.info/images/geneva-travel-pic-1.jpg'
                         }
+                        onFileChange={() => {
+                            console.log(
+                                'this function will upload 1 image to api'
+                            );
+                        }}
+                        onFileRemove={() => {
+                            console.log(
+                                'this function will send remove 1 image to api'
+                            );
+                        }}
                     />
                 </div>
             </ThemeProvider>
