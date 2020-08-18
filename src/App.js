@@ -1,26 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { ThemeProvider } from '@material-ui/core/styles';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+
+import CropUploadComponent from './CropUploadComponent/CropUploadComponent';
+import { ImgEditComponent } from './components/ImgEditComponent';
+
+export const theme = createMuiTheme({});
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <ThemeProvider theme={theme}>
+                <h1>Crop, rotate, upload.</h1>
+
+                <div>
+                    <ImgEditComponent
+                        photoUrl={
+                            'http://www.geneva.info/images/geneva-travel-pic-1.jpg'
+                        }
+                    />
+                </div>
+            </ThemeProvider>
+        </div>
+    );
 }
 
 export default App;
