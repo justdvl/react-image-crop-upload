@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { GridListTile, GridList } from '@material-ui/core';
+import { GridListTile, GridList, Grow, IconButton, GridListTileBar } from '@material-ui/core';
+import CancelIcon from '@material-ui/icons/Cancel';
 import ModalImage from 'react-modal-image';
 
 import Button from '@material-ui/core/Button';
@@ -32,19 +33,17 @@ const useStyles = makeStyles((theme) =>
             display: 'none',
         },
         imageList: {
-            overflow: 'auto',
-            width: '90%',
-            flexWrap: 'nowrap',
-            margin: '20px 0'
+            margin: '20px 0',
+            width: 610
         },
         imageItem: {
-            height: 200,
-            overflow: 'hidden',
+            height: 121,
         },
         image: {
             width: '100%',
             height: '100%',
-            objectFit: 'cover'
+            objectFit: 'cover',
+            cursor: 'pointer'
         }
     })
 );
@@ -64,6 +63,12 @@ export const ImgEditComponent = ({
     const openCarousel = (idx) => {
         setActive(idx);
         setCarouselState(true);
+    }
+
+    const deleteImage = (idx) => {
+        const imageList = [...photoUrl];
+        imageList.splice(idx, 1);
+        setPhotoUrl(imageList);
     }
 
     return (
@@ -95,15 +100,20 @@ export const ImgEditComponent = ({
                 </div>
                 <div style={{ fontSize: '2rem', marginTop: 13 }}>
                     {photoUrl.length > 0 && (
-                        <GridList cellHeight={200} className={classes.imageList} cols={12}>
+                        <GridList cellHeight={121} className={classes.imageList} cols={5}>
                         {photoUrl.map((tile, idx) => (
                             <GridListTile classes={{ tile: classes.imageItem }} key={idx} cols={1} rows={1}>
                                 <img src={tile} alt="your logo" className={classes.image} onClick={() => openCarousel(idx)} />
-                                {/* <ModalImage
-                                    small={tile}
-                                    large={tile}
-                                    alt="Your logo"
-                                /> */}
+                                <GridListTileBar
+                                    titlePosition="top"
+                                    actionIcon={
+                                        <IconButton className={classes.icon} onClick={() => deleteImage(idx)}  style={{ color: 'red' }}>
+                                            <CancelIcon size={50} />
+                                        </IconButton>
+                                    }
+                                    actionPosition="right"
+                                    className={classes.titleBar}
+                                />
                             </GridListTile>
                         ))}
                     </GridList>
@@ -118,7 +128,7 @@ export const ImgEditComponent = ({
                 </div>
             </Paper>
             {
-                carouselState && <ImageCarousel open={carouselState} photos={photoUrl} current={activeImg} setCarouselState={setCarouselState} />
+                (<Grow in={carouselState}><ImageCarousel open={carouselState} photos={photoUrl} current={activeImg} setCarouselState={setCarouselState} /></Grow>)
             }
         </div>
     );
