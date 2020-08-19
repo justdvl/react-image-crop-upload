@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import { makeStyles } from '@material-ui/core/styles';
@@ -44,6 +44,13 @@ export const CropModal = ({ src, cropper, image, setImage, sendToServer }) => {
     const [rotateDegree, setRotateDegree] = useState(0);
     const classes = useStyles();
 
+    const onCrop = useCallback(() => {
+        const dataURL = cropper.current?.getCroppedCanvas()?.toDataURL();
+        if (dataURL) {
+            setImage((image) => ({ ...image, preview: dataURL }));
+        }
+    }, [cropper, image, setImage]);
+
     React.useEffect(() => {
         //to set preview to cropped image, several time just in case
         setTimeout(() => {
@@ -58,20 +65,13 @@ export const CropModal = ({ src, cropper, image, setImage, sendToServer }) => {
         setTimeout(() => {
             onCrop();
         }, 1500);
-    }, []);
+    }, [onCrop]);
 
     const handleRotateChange = (v) => {
         setRotateDegree(v);
         cropper.current.rotate(v - rotateDegree);
         const dataURL = cropper.current.getCroppedCanvas().toDataURL();
         setImage((image) => ({ ...image, preview: dataURL }));
-    };
-
-    const onCrop = () => {
-        const dataURL = cropper.current?.getCroppedCanvas()?.toDataURL();
-        if (dataURL) {
-            setImage((image) => ({ ...image, preview: dataURL }));
-        }
     };
 
     const rotateRight = () => {

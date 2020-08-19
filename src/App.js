@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { ThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
@@ -9,6 +9,8 @@ import { ImgEditComponent } from './components/ImgEditComponent';
 export const theme = createMuiTheme({});
 
 function App() {
+    const [photoUrl, setPhotoUrl] = useState([]);
+
     return (
         <div className="App">
             <ThemeProvider theme={theme}>
@@ -16,9 +18,8 @@ function App() {
 
                 <div>
                     <ImgEditComponent
-                        photoUrl={
-                            'http://www.geneva.info/images/geneva-travel-pic-1.jpg'
-                        }
+                        photoUrl={photoUrl}
+                        setPhotoUrl={setPhotoUrl}
                         onFileChange={() => {
                             console.log(
                                 'this function will upload 1 image to api'
