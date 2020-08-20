@@ -13,6 +13,8 @@ const useStyles = makeStyles((theme) =>
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            height: '100%',
+            overflow: 'auto',
         },
         paper: {
             backgroundColor: theme.palette.background.paper,
@@ -24,9 +26,10 @@ const useStyles = makeStyles((theme) =>
 
 const CropUploadComponent = ({
     onFileChange = () => {
-        console.log('Please provide onFileChange function');
     },
     operation = 'upload',
+    photo,
+    setPhoto
 }) => {
     const classes = useStyles();
     const [src, setSrc] = useState(null);
@@ -55,6 +58,7 @@ const CropUploadComponent = ({
         //cropped img from modal to server
 
         const formData = new FormData();
+        setPhoto([...photo, URL.createObjectURL(image.file)]);
         let blob = await fetch(image.preview).then((r) => r.blob());
         formData.append('img-edit', blob);
 
