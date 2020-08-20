@@ -94,28 +94,28 @@ const ImageCarousel = ({ open, photos, current, setCarouselState }) => {
   }, [open]);
 
   return (
-    <Backdrop open={open} style={{ zIndex: 999, padding: 30 }}>
+    <Backdrop open={open} style={{ zIndex: 999, padding: 30 }} onClick={() => setCarouselState(false)}>
       <IconButton style={{ position: 'absolute', top: 20, right: 20 }} onClick={() => setCarouselState(false)}>
         <ClearIcon size={150} style={{ color: '#fff' }} />
       </IconButton>
       <Box display="flex" flexDirection="column">
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <IconButton onClick={() => goToNext('right')} className={classes.leftButton}>
+          <IconButton onClick={(e) => { e.stopPropagation(); goToNext('right'); }} className={classes.leftButton}>
             <ArrowBackIosIcon size={100} style={{ color: '#fff' }} />
           </IconButton>
           <Slide direction={slideDirection} in={slide}>
-            <Box height={500} width={500}>
+            <Box height={500} width={500} onClick={(e) => { e.stopPropagation(); }}>
               <img src={photos[index]} alt={`image${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </Box>
           </Slide>
-          <IconButton onClick={() => goToNext('left')} className={classes.rightButton}>
+          <IconButton onClick={(e) => { e.stopPropagation(); goToNext('left'); }} className={classes.rightButton}>
             <ArrowForwardIosIcon size={100} style={{ color: '#fff' }} />
           </IconButton>
         </Box>
         <Box mt={5} position="absolute" bottom={10}>
           <GridList cellHeight={121} className={classes.imageList} cols={5}>
           {photos.map((tile, idx) => (
-            <GridListTile classes={{ tile: classes.imageItem }} key={idx} cols={1} onClick={() => goToNext('up', idx)}>
+            <GridListTile classes={{ tile: classes.imageItem }} key={idx} cols={1} onClick={(e) => { e.stopPropagation(); goToNext('up', idx); }}>
               <img src={tile} alt="your logo" className={classnames(classes.image, idx === index && 'acitve' )}/>
             </GridListTile>))}
           </GridList>
