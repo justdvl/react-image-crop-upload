@@ -115,7 +115,6 @@ export const ImgEditComponent = ({
                                         </IconButton>
                                     }
                                     actionPosition="right"
-                                    className={classes.titleBar}
                                     classes={{ root: classes.tilebar }}
                                 />
                             </GridListTile>

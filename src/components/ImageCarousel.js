@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Backdrop, Grow, Slide, GridListTile, GridList, makeStyles, Box, IconButton } from '@material-ui/core';
+import { Backdrop, Slide, GridListTile, GridList, makeStyles, Box, IconButton } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ClearIcon from '@material-ui/icons/Clear';
