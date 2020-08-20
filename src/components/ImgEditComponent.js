@@ -128,7 +128,7 @@ export const ImgEditComponent = ({
                 </div>
             </Paper>
             {
-                (<Grow in={carouselState}><ImageCarousel open={carouselState} photos={photoUrl} current={activeImg} setCarouselState={setCarouselState} /></Grow>)
+                carouselState && (<Grow in={carouselState}><ImageCarousel open={carouselState} photos={photoUrl} current={activeImg} setCarouselState={setCarouselState} /></Grow>)
             }
         </div>
     );
