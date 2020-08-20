@@ -65,22 +65,16 @@ const ImageCarousel = ({ open, photos, current, setCarouselState }) => {
     setSlide(open);
   }, [open]);
 
-  const goToLeft = () => {
+  const goToNext = (direction) => {
     setSlide(false);
+    setDirection(direction);
+
+    const oppDirection = direction === 'left' ? 'right' : 'left';
+    const newIndex = direction === 'left' ? (index -1 + photos.length) % photos.length : (index + 1 + photos.length) % photos.length;
 
     setTimeout(() => {
-      setIndex(index === 0 ? photos.length - 1 : (index - 1));
-      setDirection('right');
-      setSlide(true);
-    }, 200);
-  }
-
-  const goToRight = () => {
-    setSlide(false);
-
-    setTimeout(() => {
-      setIndex((index+1)%(photos.length));
-      setDirection('left');
+      setIndex(newIndex);
+      setDirection(oppDirection);
       setSlide(true);
     }, 200);
   }
@@ -92,7 +86,7 @@ const ImageCarousel = ({ open, photos, current, setCarouselState }) => {
       </IconButton>
       <Box display="flex" flexDirection="column">
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <IconButton onClick={goToLeft} className={classes.leftButton}>
+          <IconButton onClick={() => goToNext('right')} className={classes.leftButton}>
             <ArrowBackIosIcon size={100} style={{ color: '#fff' }} />
           </IconButton>
           <Slide direction={slideDirection} in={slide}>
@@ -100,7 +94,7 @@ const ImageCarousel = ({ open, photos, current, setCarouselState }) => {
               <img src={photos[index]} alt={`image${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </Box>
           </Slide>
-          <IconButton onClick={goToRight} className={classes.rightButton}>
+          <IconButton onClick={() => goToNext('left')} className={classes.rightButton}>
             <KeyboardArrowRightIcon size={100} style={{ color: '#fff' }} />
           </IconButton>
         </Box>
