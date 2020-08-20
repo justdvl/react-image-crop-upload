@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme) =>
             height: '100%',
             objectFit: 'cover',
             cursor: 'pointer'
+        },
+        tilebar: {
+            background: '#00000000'
         }
     })
 );
@@ -113,6 +116,7 @@ export const ImgEditComponent = ({
                                     }
                                     actionPosition="right"
                                     className={classes.titleBar}
+                                    classes={{ root: classes.tilebar }}
                                 />
                             </GridListTile>
                         ))}
