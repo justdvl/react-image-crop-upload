@@ -3,13 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { GridListTile, GridList, Grow, IconButton, GridListTileBar } from '@material-ui/core';
+import {
+    GridListTile,
+    GridList,
+    Grow,
+    IconButton,
+    GridListTileBar,
+} from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import ModalImage from 'react-modal-image';
 
 import Button from '@material-ui/core/Button';
 import { Typography, Paper } from '@material-ui/core';
-import CropUploadComponent from '../CropUploadComponent/CropUploadComponent';
+import CropUploadComponent from '../CropUploadComponent';
 import ImageCarousel from './ImageCarousel';
 import { act } from 'react-dom/test-utils';
 
@@ -34,7 +40,7 @@ const useStyles = makeStyles((theme) =>
         },
         imageList: {
             margin: '20px 0',
-            width: 610
+            width: 610,
         },
         imageItem: {
             height: 121,
@@ -43,11 +49,11 @@ const useStyles = makeStyles((theme) =>
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            cursor: 'pointer'
+            cursor: 'pointer',
         },
         tilebar: {
-            background: '#00000000'
-        }
+            background: '#00000000',
+        },
     })
 );
 
@@ -66,13 +72,13 @@ export const ImgEditComponent = ({
     const openCarousel = (idx) => {
         setActive(idx);
         setCarouselState(true);
-    }
+    };
 
     const deleteImage = (idx) => {
         const imageList = [...photoUrl];
         imageList.splice(idx, 1);
         setPhotoUrl(imageList);
-    }
+    };
 
     return (
         <div>
@@ -103,23 +109,41 @@ export const ImgEditComponent = ({
                 </div>
                 <div style={{ fontSize: '2rem', marginTop: 13 }}>
                     {photoUrl.length > 0 && (
-                        <GridList cellHeight={121} className={classes.imageList} cols={5}>
-                        {photoUrl.map((tile, idx) => (
-                            <GridListTile classes={{ tile: classes.imageItem }} key={idx} cols={1} rows={1}>
-                                <img src={tile} alt="your logo" className={classes.image} onClick={() => openCarousel(idx)} />
-                                <GridListTileBar
-                                    titlePosition="top"
-                                    actionIcon={
-                                        <IconButton className={classes.icon} onClick={() => deleteImage(idx)}  style={{ color: 'red' }}>
-                                            <CancelIcon size={50} />
-                                        </IconButton>
-                                    }
-                                    actionPosition="right"
-                                    classes={{ root: classes.tilebar }}
-                                />
-                            </GridListTile>
-                        ))}
-                    </GridList>
+                        <GridList
+                            cellHeight={121}
+                            className={classes.imageList}
+                            cols={5}
+                        >
+                            {photoUrl.map((tile, idx) => (
+                                <GridListTile
+                                    classes={{ tile: classes.imageItem }}
+                                    key={idx}
+                                    cols={1}
+                                    rows={1}
+                                >
+                                    <img
+                                        src={tile}
+                                        alt="your logo"
+                                        className={classes.image}
+                                        onClick={() => openCarousel(idx)}
+                                    />
+                                    <GridListTileBar
+                                        titlePosition="top"
+                                        actionIcon={
+                                            <IconButton
+                                                className={classes.icon}
+                                                onClick={() => deleteImage(idx)}
+                                                style={{ color: 'red' }}
+                                            >
+                                                <CancelIcon size={50} />
+                                            </IconButton>
+                                        }
+                                        actionPosition="right"
+                                        classes={{ root: classes.tilebar }}
+                                    />
+                                </GridListTile>
+                            ))}
+                        </GridList>
                     )}
                     {uploading && (
                         <FontAwesomeIcon
@@ -130,9 +154,16 @@ export const ImgEditComponent = ({
                     )}
                 </div>
             </Paper>
-            {
-                carouselState && (<Grow in={carouselState}><ImageCarousel open={carouselState} photos={photoUrl} current={activeImg} setCarouselState={setCarouselState} /></Grow>)
-            }
+            {carouselState && (
+                <Grow in={carouselState}>
+                    <ImageCarousel
+                        open={carouselState}
+                        photos={photoUrl}
+                        current={activeImg}
+                        setCarouselState={setCarouselState}
+                    />
+                </Grow>
+            )}
         </div>
     );
 };

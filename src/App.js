@@ -3,8 +3,7 @@ import './App.css';
 import { ThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
-import CropUploadComponent from './CropUploadComponent/CropUploadComponent';
-import { ImgEditComponent } from './components/ImgEditComponent';
+import { ImgEditComponent } from './CropUploadComponent/components/ImgEditComponent';
 
 export const theme = createMuiTheme({});
 
