@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import {
     GridListTile,
     GridList,
@@ -11,13 +11,11 @@ import {
     GridListTileBar,
 } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
-import ModalImage from 'react-modal-image';
 
 import Button from '@material-ui/core/Button';
 import { Typography, Paper } from '@material-ui/core';
-import CropUploadComponent from '../CropUploadComponent';
+import CropUploadComponent from './CropUploadComponent';
 import ImageCarousel from './ImageCarousel';
-import { act } from 'react-dom/test-utils';
 
 // interface ImgEditComponentProps {
 //     operation: string;
@@ -75,9 +73,11 @@ export const ImgEditComponent = ({
     };
 
     const deleteImage = (idx) => {
-        const imageList = [...photoUrl];
-        imageList.splice(idx, 1);
-        setPhotoUrl(imageList);
+        if (window.confirm('Really delete?')) {
+            const imageList = [...photoUrl];
+            imageList.splice(idx, 1);
+            setPhotoUrl(imageList);
+        }
     };
 
     return (
@@ -127,20 +127,22 @@ export const ImgEditComponent = ({
                                         className={classes.image}
                                         onClick={() => openCarousel(idx)}
                                     />
-                                    <GridListTileBar
-                                        titlePosition="top"
-                                        actionIcon={
-                                            <IconButton
-                                                className={classes.icon}
-                                                onClick={() => deleteImage(idx)}
-                                                style={{ color: 'red' }}
-                                            >
-                                                <CancelIcon size={50} />
-                                            </IconButton>
-                                        }
-                                        actionPosition="right"
-                                        classes={{ root: classes.tilebar }}
-                                    />
+
+                                    <div
+                                        style={{
+                                            position: 'absolute',
+                                            top: -7,
+                                            right: -7,
+                                        }}
+                                    >
+                                        <IconButton
+                                            className={classes.icon}
+                                            onClick={() => deleteImage(idx)}
+                                            style={{ color: 'red' }}
+                                        >
+                                            <CancelIcon size={50} />
+                                        </IconButton>{' '}
+                                    </div>
                                 </GridListTile>
                             ))}
                         </GridList>
