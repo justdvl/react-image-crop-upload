@@ -1,21 +1,19 @@
-import * as React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    GridListTile,
-    GridList,
-    Grow,
-    IconButton,
-    GridListTileBar,
+    Box, GridList, GridListTile,
+    IconButton, Paper, Typography
 } from '@material-ui/core';
-import CancelIcon from '@material-ui/icons/Cancel';
-
 import Button from '@material-ui/core/Button';
-import { Typography, Paper } from '@material-ui/core';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
+import CancelIcon from '@material-ui/icons/Cancel';
+import classnames from 'classnames';
+import * as React from 'react';
+import LightBox from 'react-awesome-lightbox';
+import "react-awesome-lightbox/build/style.css";
 import CropUploadComponent from './CropUploadComponent';
-import ImageCarousel from './ImageCarousel';
+
+
 
 // interface ImgMasterProps {
 //     operation: string;
@@ -52,6 +50,15 @@ const useStyles = makeStyles((theme) =>
         tilebar: {
             background: '#00000000',
         },
+        imageTile: {
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: 0.3,
+            '&.acitve': {
+                opacity: 1,
+            },
+        },
     })
 );
 
@@ -72,6 +79,33 @@ export const ImgMaster = ({
         setCarouselState(true);
     };
 
+    const keydownFunction = React.useCallback(
+        (event) => {
+            console.log(photoUrl.length);
+
+            if (event.keyCode === 37 || event.keyCode === 100) {
+                console.log('activeImg', activeImg, photoUrl.length);
+                const newIndex = activeImg === 0 ? photoUrl.length - 1 : activeImg - 1;
+                console.log('index', newIndex);
+                setActive(newIndex);
+            } else if (event.keyCode === 39 || event.keyCode === 102) {
+                console.log('activeImg', activeImg, activeImg === (photoUrl.length - 1));
+                const newIndex = activeImg === (photoUrl.length - 1) ? 0 : activeImg + 1;
+                console.log('index', newIndex);
+                setActive(newIndex);
+            }
+        },
+        [activeImg, setActive, photoUrl]
+    );
+
+    React.useEffect(() => {
+        document.addEventListener('keydown', keydownFunction, false);
+
+        return () => {
+            document.removeEventListener('keydown', keydownFunction, false);
+        };
+    }, [keydownFunction]);
+
     const deleteImage = (idx) => {
         if (window.confirm('Really delete?')) {
             const imageList = [...photoUrl];
@@ -79,7 +113,7 @@ export const ImgMaster = ({
             setPhotoUrl(imageList);
         }
     };
-
+    console.log(photoUrl.length);
     return (
         <div>
             <Typography variant="h5" gutterBottom>
@@ -156,16 +190,46 @@ export const ImgMaster = ({
                     )}
                 </div>
             </Paper>
-            {carouselState && (
-                <Grow in={carouselState}>
-                    <ImageCarousel
-                        open={carouselState}
-                        photos={photoUrl}
-                        current={activeImg}
-                        setCarouselState={setCarouselState}
+            {
+                carouselState && <>
+                    <LightBox
+                        startIndex={activeImg}
+                        onClose={() => setCarouselState(!carouselState)}
+                        images={photoUrl.map((url, index) => ({ url, title: `image${index}` }))}
                     />
-                </Grow>
-            )}
+                    <Box mt={5} position="absolute" bottom={10} style={{ zIndex: 9999999 }}>
+                        <GridList
+                            cellHeight={121}
+                            className={classes.imageList}
+                            cols={5}
+                        >
+                            {photoUrl.map((tile, idx) => (
+                                <GridListTile
+                                    classes={{ tile: classes.imageItem }}
+                                    key={idx}
+                                    cols={1}
+                                    onClick={() => {
+                                        console.log('id', idx);
+                                        setActive(idx);
+                                        setCarouselState(false);
+                                        setTimeout(() => {
+                                            setCarouselState(true);
+                                        }, 100);
+                                    }}
+                                >
+                                    <img
+                                        src={tile}
+                                        alt="your logo"
+                                        className={classnames(
+                                            classes.imageTile,
+                                            idx === activeImg && 'acitve'
+                                        )}
+                                    />
+                                </GridListTile>
+                            ))}
+                        </GridList>
+                    </Box>
+                </>}
         </div>
     );
 };
