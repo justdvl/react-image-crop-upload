@@ -17,7 +17,7 @@ import { Typography, Paper } from '@material-ui/core';
 import CropUploadComponent from './CropUploadComponent';
 import ImageCarousel from './ImageCarousel';
 
-// interface ImgEditComponentProps {
+// interface ImgMasterProps {
 //     operation: string;
 //     onFileChange: any;
 //     photoUrl: string;
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-export const ImgEditComponent = ({
+export const ImgMaster = ({
     operation,
     onFileChange,
     onFileRemove,

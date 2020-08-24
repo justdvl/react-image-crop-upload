@@ -3,7 +3,7 @@ import './App.css';
 import { ThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
-import { ImgEditComponent } from './CropUploadComponent/ImgEditComponent';
+import { ImgMaster } from './CropUploadComponent/ImgMaster';
 
 export const theme = createMuiTheme({});
 
@@ -16,7 +16,7 @@ function App() {
                 <h1>Crop, rotate, upload.</h1>
 
                 <div>
-                    <ImgEditComponent
+                    <ImgMaster
                         photoUrl={photoUrl}
                         setPhotoUrl={setPhotoUrl}
                         onFileChange={() => {
