@@ -33,17 +33,9 @@ const useStyles = makeStyles((theme) => ({
             opacity: 1,
         },
     },
-    leftButton: {
-        position: 'absolute',
-        // left: 20,
-        left: -350,
-        top: '50%',
-    },
-    rightButton: {
-        position: 'absolute',
-        // right: 20,
-        right: -350,
-        top: '50%',
+    leftRightButton: {
+        height: 500,
+        width: 100,
     },
 }));
 
@@ -141,83 +133,92 @@ const ImageCarousel = ({ open, photos, current, setCarouselState }) => {
             >
                 <ClearIcon size={150} style={{ color: '#fff' }} />
             </IconButton>
-            <Box display="flex" flexDirection="column">
+            <Box display="flex" flexDirection="column" width="100%">
                 <Box
                     display="flex"
                     justifyContent="space-between"
                     alignItems="center"
                     position="relative"
+                    width="100%"
                 >
                     <IconButton
                         onClick={(e) => {
                             e.stopPropagation();
                             goToNext('left', -1);
                         }}
-                        className={classes.leftButton}
+                        className={classes.leftRightButton}
                     >
                         <ArrowBackIosIcon
                             size={100}
                             style={{ color: '#fff' }}
                         />
                     </IconButton>
-                    <div style={{ position: 'absolute', left: '-250px' }}>
-                        <Slide
-                            direction={
-                                slideDirection === 'left' ? 'right' : 'left'
-                            }
-                            in={!slide}
-                            timeout={TIMEOUT}
-                        >
-                            <Box
-                                height={500}
-                                width={500}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                }}
+                    <div
+                        style={{
+                            position: 'relative',
+                            width: 500,
+                            height: 500,
+                        }}
+                    >
+                        <div style={{ position: 'absolute' }}>
+                            <Slide
+                                direction={
+                                    slideDirection === 'left' ? 'right' : 'left'
+                                }
+                                in={!slide}
+                                timeout={TIMEOUT}
                             >
-                                <img
-                                    src={photos[index2]}
-                                    alt={`image${index2}`}
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover',
+                                <Box
+                                    height={500}
+                                    width={500}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
                                     }}
-                                />
-                            </Box>
-                        </Slide>
-                    </div>
-                    <div style={{ position: 'absolute', left: '-250px' }}>
-                        <Slide
-                            direction={slideDirection}
-                            in={slide}
-                            timeout={TIMEOUT}
-                        >
-                            <Box
-                                height={500}
-                                width={500}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                }}
+                                >
+                                    <img
+                                        src={photos[index2]}
+                                        alt={`image${index2}`}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                        }}
+                                    />
+                                </Box>
+                            </Slide>
+                        </div>
+                        <div style={{ position: 'absolute' }}>
+                            <Slide
+                                direction={slideDirection}
+                                in={slide}
+                                timeout={TIMEOUT}
                             >
-                                <img
-                                    src={photos[index]}
-                                    alt={`image${index}`}
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover',
+                                <Box
+                                    height={500}
+                                    width={500}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
                                     }}
-                                />
-                            </Box>
-                        </Slide>
+                                >
+                                    <img
+                                        src={photos[index]}
+                                        alt={`image${index}`}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                        }}
+                                    />
+                                </Box>
+                            </Slide>
+                        </div>
                     </div>
                     <IconButton
                         onClick={(e) => {
                             e.stopPropagation();
                             goToNext('right', -1);
                         }}
-                        className={classes.rightButton}
+                        className={classes.leftRightButton}
                     >
                         <ArrowForwardIosIcon
                             size={100}
